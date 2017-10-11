@@ -84,5 +84,45 @@ namespace GameOfLife
             }
             return neighbors;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public string DisplayGrid()
+        {
+            string result = "";
+
+            for(var y = 0; y <= height; y++)
+            {
+                for(var x=0; x <= width; x++)
+                {
+                    string cell = "";
+
+                    if (x== width)
+                    {
+                        cell = "\n";
+                    }
+                    else
+                    {
+                        if (cells[x, y])
+                        {
+                            cell = "X";
+
+                        }
+                        else
+                        {
+                            cell = ".";
+                        }
+                    }
+                    result += cell;
+                }
+            }
+
+            //adds another extra blank line at the end to help with readability
+            result += "\n";
+
+            return result;
+        }
     }
 }
