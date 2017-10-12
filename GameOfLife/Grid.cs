@@ -27,6 +27,7 @@ namespace GameOfLife
         public void UpdateState()
         {
             //
+            bool[,] newCells = new bool[width, height];
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -47,9 +48,10 @@ namespace GameOfLife
                         nextState = true;
                     }
 
-                    cells[i, j] = nextState;
+                    newCells[i, j] = nextState;
                 }
             }
+            this.cells = newCells;
         }
 
         /// <summary>
@@ -61,19 +63,14 @@ namespace GameOfLife
         public int CountNeighboringTiles(int xPosition, int yPosition)
         {
             int neighbors = 0;
-            for (int i = -1; i < 1; i++)
+            for (int i = -1; i <= 1; i++)
             {
                 int newX = xPosition + i;
-                for (int j = -1; j < 1; j++)
+                for (int j = -1; j <= 1; j++)
                 {
                     int newY = yPosition + j;
                     //need to make sure position in bounds
-                    if((newX < 0) || (newX > width) || (newY < 0) || (newY > height))
-                    {
-                        //one of the coordinates was out of bounds
-                        continue;
-                    }
-                    else
+                    if(!((newX < 0) || (newX >= width) || (newY < 0) || (newY >= height)|| ((newX == xPosition) && (newY == yPosition))))
                     {
                         if (cells[newX, newY])
                         {
@@ -91,7 +88,7 @@ namespace GameOfLife
         /// <returns></returns>
         public string DisplayGrid()
         {
-            string result = "";
+            string result = "\n\n";
 
             for(var y = 0; y <= height; y++)
             {
@@ -99,12 +96,13 @@ namespace GameOfLife
                 {
                     string cell = "";
 
-                    if (x== width)
+                    if (x == width)
                     {
                         cell = "\n";
                     }
                     else
                     {
+                        if(y == height) { continue; }
                         if (cells[x, y])
                         {
                             cell = "X";
